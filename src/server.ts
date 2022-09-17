@@ -15,7 +15,7 @@ const prisma = new PrismaClient({
 });
 
 app.get("/games", async (request, response) => {
-  const games = await prisma.game.findMany({
+  const games: any = await prisma.game.findMany({
     include: {
       _count: {
         select: {
@@ -30,8 +30,8 @@ app.get("/games", async (request, response) => {
 app.post("/games/:id/ads", async (request, response) => {
   const gameId: string = request.params.id;
   const body: any = request.body;
-
-  const ad = await prisma.ad.create({
+  
+  const ad:any = await prisma.ad.create({
     data: {
       gameId,
       name: body.name,
@@ -43,14 +43,14 @@ app.post("/games/:id/ads", async (request, response) => {
       useVoiceChannel: body.useVoiceChannel,
     },
   });
-
-  return response.status(200).json(ad);
+  
+  return response.status(201).json(ad);
 });
 
 app.get("/games/:id/ads", async (request, response) => {
   const gameId: string = request.params.id;
 
-  const ads = await prisma.ad.findMany({
+  const ads:any = await prisma.ad.findMany({
     select: {
       id: true,
       name: true,
@@ -83,7 +83,7 @@ app.get("/games/:id/ads", async (request, response) => {
 app.get("/ads/:id/discord", async (request, response) => {
   const adId: string = request.params.id;
 
-  const ad = await prisma.ad.findUniqueOrThrow({
+  const ad:any = await prisma.ad.findUniqueOrThrow({
     select: {
       discord: true,
     },
